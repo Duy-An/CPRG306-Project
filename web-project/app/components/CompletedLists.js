@@ -2,6 +2,7 @@ import React from 'react';
 
 const CompletedLists = () => {
   return (
+    <div style={{ backgroundColor: '#f3f3f3' }}>
     <div className="absolute w-[314px] h-[714px] left-0 top-[403px] bg-gray-300 border-r border-black box-border">
       <div className="absolute w-[185px] h-[32px] left-[65px] top-[14px] font-inter font-semibold text-xl leading-7 text-black">
         Completed Lists
@@ -19,6 +20,7 @@ const CompletedLists = () => {
         </div>
         {/* ... more list items as needed ... */}
       </div>
+    </div>
     </div>
   );
 };
