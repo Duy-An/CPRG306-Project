@@ -14,15 +14,16 @@ const TaskList = ({ tasks, onComplete }) => {
     marginRight: '10px', 
     border: '1px solid rgb(69, 10, 10)', 
     backgroundColor: sortType === buttonType ? 'green' : 'white',
+    padding: '3px 10px',
   });
 
   return (
     
-    <div className="absolute w-[784px] h-[305px] left-[335px] top-[180px]">
-      <div className="absolute w-[368px] h-[37px] top-0 left-0 font-inter font-semibold text-lg leading-7 text-black">
+    <div className="ml-5">
+      <div className="w-fit mb-2 top-0 left-0 font-inter font-semibold text-lg leading-7 text-black">
         Task List
       </div>
-      <div className="absolute w-[368px] h-[37px] top-[30px] left-0 font-inter font-semibold text-lg leading-7 text-black">
+      <div className="w-[368px] h-[37px] top-[30px] left-0 font-inter font-semibold text-lg leading-7 text-black">
         <button onClick={() => setSortType('all')} style={sortButtonStyle('all')}>All</button>
         <button onClick={() => setSortType('important')} style={sortButtonStyle('important')}>Important</button>
         <button onClick={() => setSortType('urgent')} style={sortButtonStyle('urgent')}>Urgent</button>
@@ -40,4 +41,3 @@ const TaskList = ({ tasks, onComplete }) => {
 };
 
 export default TaskList;
-

@@ -1,46 +1,52 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 const AddTask = ({ onAddTask }) => {
   const [task, setTask] = useState('');
   const [type, setType] = useState('daily'); // default type
+  const [listText, setlistText] = useState('My Favorite List');
+
+  function handleListText(text) {
+    setlistText(text);
+  }
+
+  useEffect(() => {
+    handleListText(listText);
+  }, [listText])
 
   const handleAddTask = () => {
-    onAddTask({ text: task, type });
-    setTask(''); // reset input field
+    if(task !== '') {
+      onAddTask({ text: task, type });
+      setTask(''); // reset input field
+    }
   };
   const buttonStyle = (buttonType) => ({
     marginRight: '10px', 
     border: '1px solid rgb(69, 10, 10)', 
     backgroundColor: type === buttonType ? 'green' : 'white', // Change color if selected
-    
+    padding: '3px 10px'
   });
   return (
-    <div className="absolute w-[600px] h-[104px] left-[335px] top-[42px]">
-      <div className="absolute w-[368px] h-[37px] top-0 left-0 font-inter font-semibold text-2xl leading-[31px] text-black">
-        List 10
-      </div>
-      <div className="absolute flex items-center border border-gray-400 bg-gray-300 w-full h-[50px] top-[45px]">
+    <div className="h-fit mt-8 ml-5 mb-5">
+      <input placeholder='My Favorite List' className='font-inter font-semibold text-2xl text-black mb-2 border border-slate-400 rounded' onChange={(event) => handleAddTask(event.target.value)} />
+      <div className="flex items-center border border-gray-400 bg-gray-300 w-fit h-[50px] top-[45px] rounded">
         <div className="w-[40px] h-[40px] ml-1.5 border-2 border-gray-600 flex items-center justify-center">
           {/* Plus icon can be added here, possibly as an SVG */}
         </div>
         <input 
-          type="text" 
+          type="text"
           value={task}
           onChange={(e) => setTask(e.target.value)}
           placeholder="Add a Task" 
-          className="w-full h-6 ml-3 text-lg leading-6 bg-transparent text-black border-none outline-none font-inter"
+          className="w-64 h-6 ml-3 text-lg leading-6 bg-transparent text-black border-none outline-none font-inter"
         />
         </div>
 
-
-        <div className="absolute flex items-center w-full h-[50px] top-[95px]">
+        <div className="flex items-center mt-3">
         <button onClick={() => setType('daily')} style={buttonStyle('daily')}>Daily</button>
         <button onClick={() => setType('important')} style={buttonStyle('important')}>Important</button>
         <button onClick={() => setType('urgent')} style={buttonStyle('urgent')}>Urgent</button>
-        <button onClick={handleAddTask} style={{ border: '1px solid rgb(69, 10, 10)'}}>Add Task</button>
-</div>
-
-
+        <button onClick={handleAddTask} className='border border-black px-3 py-1 rounded'>Add Task</button>
+      </div>
     </div>
   );
 };

@@ -19,12 +19,16 @@ const Page = () => {
   };
 
   return (
-    <div style={{ backgroundColor: '#f3f3f3' }}>
-      <FunctionBar />
-      <CompletedLists/>
-      <main>
-        <AddTask onAddTask={addTask} />
-        <TaskList tasks={tasks} onComplete={handleComplete} />
+    <div className='w-full bg-white flex'>
+      <div>
+        <FunctionBar />
+        <CompletedLists/>
+      </div>
+      <main className='bg-white flex w-screen h-auto'>
+        <div className='w-8/12 h-fit'>
+          <AddTask onAddTask={addTask} />
+          <TaskList tasks={tasks} onComplete={handleComplete} />
+        </div>
         <CompletedTasks tasks={completedTasks} />
       </main>
     </div>

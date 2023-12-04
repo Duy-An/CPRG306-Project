@@ -1,13 +1,21 @@
-import React from 'react';
+"use client";
+import React, {useState, useEffect} from 'react';
 
-const CompletedLists = () => {
+const CompletedLists = (propList) => {
+  const [list, setList] = useState([{propList}]);
+
+
   return (
-    <div style={{ backgroundColor: '#f3f3f3' }}>
-    <div className="absolute w-[314px] h-[714px] left-0 top-[403px] bg-gray-300 border-r border-black box-border">
-      <div className="absolute w-[185px] h-[32px] left-[65px] top-[14px] font-inter font-semibold text-xl leading-7 text-black">
+    <div className="block w-64 left-0 h-fit bg-gray-300 border border-black box-border">
+      <div className="block w-full h-[32px] text-center pt-4 font-inter font-semibold text-xl leading-7 text-black">
         Completed Lists
       </div>
-      <div className="relative mt-10">
+      <div className="mt-10 ml-2 h-full">
+        {/* {list ? list.map((item, index) => {
+          return <div className="font-inter text-lg leading-6 text-black" key={index}>
+          {item}
+        </div>
+        }) : 'No Completed Lists'}; */}
         <div className="font-inter text-lg leading-6 text-black">
           List 1
         </div>
@@ -18,9 +26,9 @@ const CompletedLists = () => {
         <div className="font-inter text-lg leading-6 text-black mt-4">
           Travel List
         </div>
+        
         {/* ... more list items as needed ... */}
       </div>
-    </div>
     </div>
   );
 };
