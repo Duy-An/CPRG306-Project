@@ -5,10 +5,10 @@ import TodoItem from './TodoItem';
 const TaskList = ({ tasks, onComplete }) => {
   const [sortType, setSortType] = useState('all');
 
-  const sortedTasks = tasks.filter(task => {
-    if (sortType === 'all') return true;
-    return task.type === sortType;
-  });
+  // const sortedTasks = tasks.filter(task => {
+  //   if (sortType === 'all') return true;
+  //   return task.type === sortType;
+  // });
 
   const sortButtonStyle = (buttonType) => ({
     marginRight: '10px', 
@@ -28,13 +28,13 @@ const TaskList = ({ tasks, onComplete }) => {
         <button onClick={() => setSortType('important')} style={sortButtonStyle('important')}>Important</button>
         <button onClick={() => setSortType('urgent')} style={sortButtonStyle('urgent')}>Urgent</button>
         {/* ...existing elements... */}
-        {sortedTasks.map((task, index) => (
+        {/* {sortedTasks.map((task, index) => (
           <TodoItem 
             key={index} 
             todo={task} 
             onComplete={() => onComplete(task)} 
           />
-        ))}
+        ))} */}
       </div>
     </div>
   );

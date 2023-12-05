@@ -4,27 +4,30 @@ const AddTask = ({ onAddTask }) => {
   const [task, setTask] = useState('');
   const [type, setType] = useState('daily'); // default type
   const [listText, setlistText] = useState('My Favorite List');
+  const [complete, setComplete] = useState(false);
 
   function handleListText(text) {
     setlistText(text);
-  }
+  };
 
   useEffect(() => {
     handleListText(listText);
-  }, [listText])
+  }, [listText]);
 
   const handleAddTask = () => {
     if(task !== '') {
-      onAddTask({ text: task, type });
+      onAddTask({ task, type, listText, complete });
       setTask(''); // reset input field
     }
   };
+
   const buttonStyle = (buttonType) => ({
     marginRight: '10px', 
     border: '1px solid rgb(69, 10, 10)', 
     backgroundColor: type === buttonType ? 'green' : 'white', // Change color if selected
     padding: '3px 10px'
   });
+
   return (
     <div className="h-fit mt-8 ml-5 mb-5">
       <input placeholder='My Favorite List' className='font-inter font-semibold text-2xl text-black mb-2 border border-slate-400 rounded' onChange={(event) => handleAddTask(event.target.value)} />

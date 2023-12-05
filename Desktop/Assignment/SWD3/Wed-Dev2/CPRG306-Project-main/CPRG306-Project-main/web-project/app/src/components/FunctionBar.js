@@ -1,8 +1,12 @@
+'use client';
 import React from 'react';
+import Account from './Account';
 
 const FunctionBar = () => {
+
   return (
-    <div className="block w-64 h-72 bg-gray-300 border-r border-b border-black box-border p-5 z-10">
+    <div className="block w-64 h-80 bg-gray-300 border-r border-b border-black box-border p-5 z-10">
+      <Account />
       {/* List Icon */}
       <div className="absolute w-8 h-8 border-2 border-gray-600 rounded mt-10 ml-5">
         {/* Add icon content or SVG here */}
