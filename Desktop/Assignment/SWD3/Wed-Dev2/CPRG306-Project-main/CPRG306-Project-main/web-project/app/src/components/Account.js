@@ -1,5 +1,5 @@
 'use client';
-import { useUserAuth } from '../utilities/authContext';
+import { useUserAuth } from '../_utilities/authContext';
 
 export default function Account() {
     const {user, gitHubSignIn, firebaseSignOut} = useUserAuth();

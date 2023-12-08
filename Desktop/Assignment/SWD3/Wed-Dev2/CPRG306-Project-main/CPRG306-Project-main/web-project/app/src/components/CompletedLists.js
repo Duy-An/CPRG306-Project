@@ -1,16 +1,20 @@
 import React, {useState, useEffect} from 'react';
 
-const CompletedLists = (propList, handleListText) => {
-  const [listText, setListText] = useState([propList.listText]);
+const CompletedLists = ({displayTasks, handleList}) => {
+  const [list, setList] = useState([]);
   const [selectedList, setSelectedList] = useState('');
 
-  function handleListText(text) {
+  function handleSelectedList(text) {
     setSelectedList(text);
-  }
+  };
 
   useEffect(() => {
-    handleListText(listText);
-  }, [listText]);
+    handleSelectedList(handleList);
+  }, [handleList]);
+
+  useEffect(() => {
+    setList(displayTasks);
+  }, [displayTasks]);
 
   return (
     <div className="block w-64 left-0 h-fit bg-gray-300 border border-black box-border">
@@ -18,22 +22,11 @@ const CompletedLists = (propList, handleListText) => {
         Completed Lists
       </div>
       <div className="mt-10 ml-2 h-full">
-        {/* {list ? list.map((item, index) => {
-          return <div className="font-inter text-lg leading-6 text-black" key={index} onClick={(event) => handleListText(event.target.value)}>
-          {item}
+        {list ? list.map((item, index) => {
+          return <div className="font-inter text-lg leading-6 text-black" key={index} >
+            <button onClick={() => handleList(item)}>{item}</button>
         </div>
-        }) : 'No Completed Lists'}; */}
-        <div className="font-inter text-lg leading-6 text-black">
-          List 1
-        </div>
-        <div className="font-inter text-lg leading-6 text-black mt-4">
-          List 2
-        </div>
-        {/* Additional list items with respective margins */}
-        <div className="font-inter text-lg leading-6 text-black mt-4">
-          Travel List
-        </div>
-        
+        }) : 'No Completed Lists'}
         {/* ... more list items as needed ... */}
       </div>
     </div>

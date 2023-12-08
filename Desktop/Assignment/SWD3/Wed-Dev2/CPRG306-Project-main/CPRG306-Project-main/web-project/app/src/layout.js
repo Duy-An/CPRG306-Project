@@ -1,4 +1,4 @@
-import { AuthContextProvider } from "./utilities/authContext";
+import { AuthContextProvider } from "./_utilities/authContext";
 
 function Layout ({children}) {
     return <AuthContextProvider>{children}</AuthContextProvider>

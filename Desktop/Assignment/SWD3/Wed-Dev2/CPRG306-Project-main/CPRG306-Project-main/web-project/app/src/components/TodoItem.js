@@ -16,7 +16,7 @@ const TodoItem = ({ todo, onComplete }) => {
   return (
     <div className="todoItem">
       {/* Display task with type icon if needed */}
-      <span className="todoText">{todo.text}</span>
+      <span className="todoText">{todo.task}</span>
       {getIconForType(todo.type) && <span className="todoIcon">{getIconForType(todo.type)}</span>}
       
       {/* Complete Button */}

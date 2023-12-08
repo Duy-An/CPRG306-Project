@@ -5,75 +5,77 @@ import AddTask from './src/components/AddTask';
 import FunctionBar from './src/components/FunctionBar';
 import CompletedTasks from './src/components/CompletedTasks';
 import CompletedLists from './src/components/CompletedLists';
-import {getTasks, addTasks, updateTasks} from './src/database/DatabaseConnect';
+import {getTasks, addTasks, updateTasks, getTasksFromList} from './src/database/DatabaseConnect';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { AuthContextProvider } from './src/utilities/authContext';
+import { AuthContextProvider } from './src/_utilities/authContext';
 
 const Page = () => {
   const [tasks, setTasks] = useState([]);
   const [completedTasks, setCompletedTasks] = useState([]);
+  const [completeList, setCompleteList] = useState([]);
   const [displayTasks, setDisplayTasks] = useState([]);
-  const [userId, setUserId] = useState('');
-  const [list, setList] = useState([]);
+  const [displayList, setDisplayList] = useState([]);
   const [listText, setListText] = useState('My Favorite List');
-
-  const auth = getAuth();
-  onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      await setUserId(user.uid);
-    } else {
-      return;
-    }
-  });
 
   // Add Task
   const addTask = async (newTask) => {
-    console.log(newTask)
-    const item = {name: newTask.task, type: newTask.type, listText: newTask.listText, complete: newTask.complete};
-    console.log(item)
-    await setTasks(item);
+    await setTasks(newTask);
   };
 
   useEffect( () => {
     console.log(tasks);
-    console.log(userId);
-    addTasks(userId, tasks);
+    addTasks(tasks);
   }, [tasks]);
 
+  // Load Task List from Database
   async function loadTasks() {
-    const condition = false;
-    const result = await getTasks(userId, listText, condition);
+    const result = await getTasks();
     console.log(result);
-    setList(listText);
-    setDisplayTasks(result);
+    const filterList = result.map(task => task.listText).filter((value, index, self) => self.indexOf(value) === index);
+    setDisplayTasks(filterList);
+    console.log(filterList);
   }
 
   useEffect(() => {
     loadTasks();
-  }, [userId]);
+  }, []);
 
+  // Completed Task
   const handleComplete = (item) => {
     item.complete = true;
-    updateTasks(userId, item);
-    //setTasks(displayTasks.filter(task => task.complete == false));
-    //need update method here
+    updateTasks(item);
+    console.log(item);
   };
 
+  // Completed List Selected
+  function handleList(text) {
+    setListText(text);
+  };
 
+  // Load Completed Tasks from Completed List Selected
+  async function loadCompletedList() {
+    const result = await getTasksFromList(listText);
+    console.log(result);
+    setDisplayList(result);
+  }
+
+  useEffect(() => { 
+    loadCompletedList();
+  }, [listText]);
 
   return (
     <div className='w-full bg-white flex'>
       <AuthContextProvider>
         <div>
           <FunctionBar />
-          <CompletedLists propList={listText} handleListText={listText}/>
+          <CompletedLists displayTasks={displayTasks} handleList={handleList}/>
         </div>
         <main className='bg-white flex w-screen h-auto'>
           <div className='w-8/12 h-fit'>
             <AddTask onAddTask={addTask} />
-            <TaskList tasks={displayTasks} onComplete={(item) => handleComplete(item)} />
+            <TaskList displayList={displayList} handleComplete={(item) => handleComplete(item)} />
           </div>
-          <CompletedTasks tasks={completedTasks} />
+          <CompletedTasks displayList={displayList} />
         </main>
       </AuthContextProvider>
     </div>
@@ -81,4 +83,3 @@ const Page = () => {
 };
 
 export default Page;
-

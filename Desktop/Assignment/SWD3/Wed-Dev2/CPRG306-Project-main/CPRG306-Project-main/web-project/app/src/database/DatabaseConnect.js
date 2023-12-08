@@ -1,50 +1,44 @@
-import {db} from "../utilities/firebase";
+import {db} from "../_utilities/firebase";
 import { collection, getDocs, addDoc, query, where, updateDoc, doc } from "firebase/firestore";
 
-export async function getTasks(userId, listText, condition) {
+export async function getTasks() {
     try {
-        const taskCollection = collection(db, "users", userId, "tasks");
-        console.log(taskCollection)
-        const queryCollection = query(taskCollection, where("listText", "==", listText), where("complete", "==", condition));
-        console.log(queryCollection);
-        const taskArray = await getDocs(queryCollection);
-        console.log(taskArray)
-        const taskEach = taskArray.docs.map(doc => {
-            console.log(doc);
-            return ({id: doc.id, ...doc.data()});
-        });
-        console.log(taskEach);
-        return taskEach;
+        const queryCollection = query(collection(db, "toDoLists"));
+        const snapshot = await getDocs(queryCollection);
+        return  snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
     } catch (error) {
         console.log("Error getting tasks: ", error);
     }
 }
 
-export async function addTasks(userId, task) {
+export async function getTasksFromList(displayList) {
     try {
-        console.log(task);
-        const taskCollection = collection(db, "users", userId, "tasks");
-        console.log(taskCollection);
-        const queryCollection = query(taskCollection, where("listText", "==", task.listText));
-        console.log(queryCollection);
-        const taskDoc = await addDoc(queryCollection, task);
-        console.log(taskDoc);
-        return taskDoc;
+        const queryCollection = query(collection(db, "toDoLists"), where("listText", "==", displayList));
+        const snapshot = await getDocs(queryCollection);
+        snapshot.forEach((doc) => { console.log(doc.id, " => ", doc.data()); });
+        return  snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+    } catch (error) {
+        console.log("Error getting tasks: ", error);
+    }
+}
+
+export async function addTasks(task) {
+    const data = { task: task.task, type: task.type, listText: task.listText, complete: task.complete };
+    console.log(data);
+    try {
+        const add = await addDoc(collection(db, "toDoLists"), data);
+        console.log("Added", add.id);
     } catch (error) {
         console.log("Error adding task: ", error);
     }
 }
 
-export async function updateTasks(userId, task) {
+export async function updateTasks(task) {
     try {
-        const taskId = task.id; 
-        const taskCollection = collection(db, "users", userId, "tasks");
-        const queryCollection = doc(taskCollection, taskId);
-        const result = await updateDoc(queryCollection, {complete: true});
-        // const queryCollection = query(taskCollection, where(task.id, "==", taskId));
-        // const result = await queryCollection.doc(taskId).updateDoc(task.complete = true);
-        console.log(result);
-        return result;
+        const taskRef = doc(db, "toDoLists", task.id);
+        await updateDoc(taskRef, {
+            complete: task.complete,
+        });
     } catch (error) {
         console.log("Error updating task: ", error);
     }

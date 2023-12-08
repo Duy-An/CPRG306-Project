@@ -1,14 +1,18 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TodoItem from './TodoItem';
 
-const TaskList = ({ tasks, onComplete }) => {
+const TaskList = ({ displayList, handleComplete }) => {
   const [sortType, setSortType] = useState('all');
+  const [list, setList] = useState([]);
 
-  // const sortedTasks = tasks.filter(task => {
-  //   if (sortType === 'all') return true;
-  //   return task.type === sortType;
-  // });
+  console.log(displayList);
+
+  useEffect(() => {
+    if(displayList != null) {
+      setList(displayList.filter((item) => item.complete === false ));
+    }
+  }, [displayList]);
 
   const sortButtonStyle = (buttonType) => ({
     marginRight: '10px', 
@@ -27,14 +31,18 @@ const TaskList = ({ tasks, onComplete }) => {
         <button onClick={() => setSortType('all')} style={sortButtonStyle('all')}>All</button>
         <button onClick={() => setSortType('important')} style={sortButtonStyle('important')}>Important</button>
         <button onClick={() => setSortType('urgent')} style={sortButtonStyle('urgent')}>Urgent</button>
-        {/* ...existing elements... */}
-        {/* {sortedTasks.map((task, index) => (
-          <TodoItem 
-            key={index} 
-            todo={task} 
-            onComplete={() => onComplete(task)} 
-          />
-        ))} */}
+        {list ? list.map((item, index) => {
+          console.log(item);
+          return (
+            <TodoItem 
+              key={index}
+              todo={item}
+              onComplete={() => handleComplete(item)} 
+            />
+          )
+        })
+        : ''}
+        {/* ... more list items as needed ... */}
       </div>
     </div>
   );
