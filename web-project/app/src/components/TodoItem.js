@@ -16,7 +16,7 @@ const TodoItem = ({ todo, onComplete }) => {
   return (
     <div className="todoItem">
       {/* Display task with type icon if needed */}
-      <span className="todoText">{todo.text}</span>
+      <span className="todoText">{todo.task}</span>
       {getIconForType(todo.type) && <span className="todoIcon">{getIconForType(todo.type)}</span>}
       
       {/* Complete Button */}
@@ -30,7 +30,7 @@ const TodoItem = ({ todo, onComplete }) => {
           justify-content: space-between;
           padding: 10px;
           border: 1px solid #ccc;
-          margin-bottom: 10px;
+          margin: 10px 0;
         }
         .todoText {
           flex-grow: 1;
